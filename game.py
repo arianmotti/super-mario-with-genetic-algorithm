@@ -117,6 +117,9 @@ for i in range(200):
     print(states[i])
     points.append(g.get_score(test.state_maker()))
     print(points[i])
+selection = zip(points, states)
+
+
 
 # This outputs (False, 4)
 # print(g.get_score("0000000000"))
