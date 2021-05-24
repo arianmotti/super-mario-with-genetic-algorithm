@@ -15,7 +15,7 @@ class FirstPop:
         # print(self.first_pop_list)
         return self.first_pop_list
 
-    def state_maker(self, ):
+    def state_maker(self):
         state = 's0'
         self.first_pop_state.append(state)
         for i in range(self.lenght-1 ):
@@ -66,7 +66,7 @@ class Game:
         self.current_level_index += 1
         self.current_level_len = len(self.levels[self.current_level_index])
 
-    def get_score(self, actions):
+    def get_score(self, states):
         # Get an action sequence and determine the steps taken/score
         # Return a tuple, the first one indicates if these actions result in victory
         # and the second one shows the steps taken
@@ -77,22 +77,23 @@ class Game:
             current_step = current_level[i]
             if current_step == '_':
                 steps += 1
-            elif current_step == 'G' and actions[i - 1] == '1':
+            elif current_step == 'G' and states[i - 1] == 's1':
                 steps += 1
-            elif current_step == 'L' and actions[i - 1] == '2':
+            elif current_step == 'L' and states[i - 1] == 's2':
                 steps += 1
             else:
                 break
         return steps == self.current_level_len - 1, steps
 
 
-# g = Game(["____G__L__", "___G_M___L_"])
-# g.load_next_level()
+g = Game(["____G__L__", "___G_M___L_"])
+g.load_next_level()
 # addition
 for i in range(200):
     test = FirstPop('0000000000')
     print(test.build())
     print(test.state_maker())
+    print(g.get_score(test.state_maker()))
 
 # This outputs (False, 4)
 # print(g.get_score("0000000000"))
