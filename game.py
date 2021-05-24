@@ -5,6 +5,7 @@ import random
 class FirstPop:
     def __init__(self, level):
         self.first_pop_list = []
+        self.first_pop_state = []
 
         self.lenght = len(level)
 
@@ -13,6 +14,36 @@ class FirstPop:
             self.first_pop_list.append(random.randint(0, 2))
         # print(self.first_pop_list)
         return self.first_pop_list
+
+    def state_maker(self, ):
+        state = 's0'
+        self.first_pop_state.append(state)
+        for i in range(self.lenght - 1):
+            self.first_pop_state.append(state)
+            if state == 's0':
+                if self.first_pop_list[i + 1] == 0:
+                    state = 's0'
+                if self.first_pop_list[i + 1] == 1:
+                    state = 's1'
+                if self.first_pop_list[i + 1] == 2:
+                    state = 's2'
+            if state == 's1':
+                if self.first_pop_list[i + 1] == 0:
+                    state = 's0'
+                if self.first_pop_list[i + 1] == 1:
+                    state = 's0'
+                if self.first_pop_list[i + 1] == 2:
+                    state = 's0'
+            if state == 's2':
+                if self.first_pop_list[i + 1] == 0:
+                    state = 's0'
+                if self.first_pop_list[i + 1] == 1:
+                    state = 's1'
+                if self.first_pop_list[i + 1] == 2:
+                    state = 's2'
+        return self.first_pop_state
+
+
 
 
 class Game:
@@ -59,6 +90,7 @@ g.load_next_level()
 for i in range(200):
     test = FirstPop('0000000000')
     print(test.build())
+    print(test.state_maker())
 
 # This outputs (False, 4)
 print(g.get_score("0000000000"))
