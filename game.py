@@ -1,40 +1,18 @@
 import random
-import enum
 
 
-class States(enum.Enum):
-    state1 = 1
-    state2 = 2
-    sttate3 = 3
-
-
+# addition
 class FirstPop:
     def __init__(self, level):
         self.first_pop_list = []
-        self.first_pop_statelist = []
-        for i in range(len(level)):
-            self.first_pop_list.append(random.randint(0, 2))
-        print(self.first_pop_list)
-        self.first_pop_statelist.append(States.state1)
-        print(self.first_pop_statelist)
-        for i in range(0, len(level) - 1):
-            if self.first_pop_statelist[i] == States.state1:
-                if self.first_pop_list[i] == 0:
-                    self.first_pop_statelist.append(States.state1)
-                if self.first_pop_list[i] == 1:
-                    self.first_pop_statelist.append(States.state2)
-                if self.first_pop_list[i] == 2:
-                    self.first_pop_statelist.append(States.state3)
 
-                if self.first_pop_statelist[i] == States.state2:
-                    self.first_pop_statelist.append(States.state1)
-                if self.first_pop_statelist[i] == States.state3:
-                    if self.first_pop_list[i] == 0:
-                        self.first_pop_statelist.append(States.state1)
-                    if self.first_pop_list[i] == 1:
-                        self.first_pop_statelist.append(States.state2)
-                    if self.first_pop_list[i] == 2:
-                        self.first_pop_statelist.append(States.state3)
+        self.lenght = len(level)
+
+    def build(self):
+        for i in range(self.lenght):
+            self.first_pop_list.append(random.randint(0, 2))
+        # print(self.first_pop_list)
+        return self.first_pop_list
 
 
 class Game:
@@ -48,8 +26,8 @@ class Game:
         self.current_level_len = 0
 
         # addition
-        self.first_pop_list = []
-        self.first_pop_statelist = []
+        # self.first_pop_list = []
+        # self.first_pop_statelist = []
 
     def load_next_level(self):
         self.current_level_index += 1
@@ -77,7 +55,10 @@ class Game:
 
 g = Game(["____G__L__", "___G_M___L_"])
 g.load_next_level()
-test = FirstPop('0000000000')
+# addition
+for i in range(200):
+    test = FirstPop('0000000000')
+    print(test.build())
 
 # This outputs (False, 4)
 print(g.get_score("0000000000"))
