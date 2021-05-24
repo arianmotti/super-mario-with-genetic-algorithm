@@ -18,8 +18,8 @@ class FirstPop:
     def state_maker(self, ):
         state = 's0'
         self.first_pop_state.append(state)
-        for i in range(self.lenght - 1):
-            self.first_pop_state.append(state)
+        for i in range(self.lenght-1 ):
+
             if state == 's0':
                 if self.first_pop_list[i + 1] == 0:
                     state = 's0'
@@ -27,20 +27,22 @@ class FirstPop:
                     state = 's1'
                 if self.first_pop_list[i + 1] == 2:
                     state = 's2'
-            if state == 's1':
+
+            elif state == 's1':
                 if self.first_pop_list[i + 1] == 0:
                     state = 's0'
                 if self.first_pop_list[i + 1] == 1:
                     state = 's0'
                 if self.first_pop_list[i + 1] == 2:
                     state = 's0'
-            if state == 's2':
+            elif state == 's2':
                 if self.first_pop_list[i + 1] == 0:
                     state = 's0'
                 if self.first_pop_list[i + 1] == 1:
                     state = 's1'
                 if self.first_pop_list[i + 1] == 2:
                     state = 's2'
+            self.first_pop_state.append(state)
         return self.first_pop_state
 
 
@@ -84,8 +86,8 @@ class Game:
         return steps == self.current_level_len - 1, steps
 
 
-g = Game(["____G__L__", "___G_M___L_"])
-g.load_next_level()
+# g = Game(["____G__L__", "___G_M___L_"])
+# g.load_next_level()
 # addition
 for i in range(200):
     test = FirstPop('0000000000')
@@ -93,4 +95,4 @@ for i in range(200):
     print(test.state_maker())
 
 # This outputs (False, 4)
-print(g.get_score("0000000000"))
+# print(g.get_score("0000000000"))
