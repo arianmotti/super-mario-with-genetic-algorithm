@@ -119,7 +119,9 @@ for i in range(200):
     print(points[i])
 selection = zip(points, states)
 
-
+selection = tuple(selection)
+selection = sorted(selection)
+print(selection)
 
 # This outputs (False, 4)
 # print(g.get_score("0000000000"))
