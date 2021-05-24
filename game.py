@@ -1,4 +1,5 @@
 import random
+import math
 
 
 # addition
@@ -110,18 +111,27 @@ g.load_next_level()
 # addition
 states = []
 points = []
-for i in range(200):
+points2 = []
+total_points = 0
+for i in range(4):
     test = FirstPop('0000000000')
     print(test.build())
     states.append(test.state_maker())
     print(states[i])
     points.append(g.get_score(test.state_maker()))
     print(points[i])
+   # total_points = total_points + points[i]
+for j in range (len(points)):
+    points2.append(abs(points[j]))
 selection = zip(points, states)
+selection2 = zip(points2,states)
 
 selection = tuple(selection)
 selection = sorted(selection)
-print(selection)
+selection = tuple(selection2)
+selection = sorted(selection2)
+randomList = random.choices(states, weights=points2, k= math.floor(len(points) / 2))
+print(randomList)
 
 # This outputs (False, 4)
 # print(g.get_score("0000000000"))
