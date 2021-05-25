@@ -105,16 +105,21 @@ class Game:
 
 # class Selection:
 #     def __init__(self):
+print('enter your level :')
+level = input()
 
-g = Game(["____G__L__", "___G_M___L_"])
+g = Game([level])
 g.load_next_level()
+
+print('enter your first population amount :')
+amount = int(input())
 # addition
 states = []
 points = []
 points2 = []
 total_points = 0
-for i in range(4):
-    test = FirstPop('0000000000')
+for i in range(amount):
+    test = FirstPop(level)
     print(test.build())
     states.append(test.state_maker())
     print(states[i])
@@ -128,6 +133,7 @@ selection2 = zip(points2,states)
 
 selection = tuple(selection)
 selection = sorted(selection)
+#print(selection)
 selection = tuple(selection2)
 selection = sorted(selection2)
 randomList = random.choices(states, weights=points2, k= math.floor(len(points) / 2))
