@@ -128,7 +128,7 @@ class Game:
         steps = 0
         for i in range(self.current_level_len - 1):
             current_step = current_level[i]
-            if current_step == '_':
+            if current_step == '_' or current_step == 'M':
                 steps += 1
             elif current_step == 'G' and states[i] == 's1':
                 steps += 1
@@ -136,6 +136,7 @@ class Game:
                 steps += 1
             if current_step == 'M' and states[i] != 's1':
                 point = point + 2
+
             if i == self.current_level_len - 1 and states[i] == 's1':
                 point = point + 2
             if (current_step == '_' or current_step == 'G') and states[i] == 's1' and current_step != 'M' and \
@@ -202,7 +203,7 @@ print(goodpoints)
 combined = Combined(selection, randomList, goodpoints)
 combined_list = combined.combine()
 print(combined_list)
-print(combined_list[0])
+#print(combined_list[0])
 
 # print(len(randomList), len(goodpoints))
 
