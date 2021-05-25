@@ -3,12 +3,14 @@ import math
 
 
 class Combined:
-    def __init__(self, allgenes, goodgenes, goodpoints):
+    def __init__(self, allgenes, goodgenes, goodpoints, g):
         self.allgenes = allgenes
         self.goodgenes = goodgenes
         self.combinedlist = []
         self.goodpoints = goodpoints
+        self.newpoints = []
         self.better = zip(self.goodgenes, self.goodpoints)
+        self.game = g
 
     def combine(self):
         # print(self.goodgenes)
@@ -26,7 +28,18 @@ class Combined:
             # parent2 = self.goodgenes[random.randint(0, len(self.goodgenes) - 1)]
             # self.crossover(parent1, parent2)
             # self.combinedlist.append(self.crossover(parent1, parent2))
+            self.newpoints.append(g.get_score(child1))
+            self.newpoints.append(g.get_score(child2))
         return self.combinedlist
+
+    def newpoints(self):
+        return self.newpoints
+    def totalnewpoints(self):
+        total = 0
+        for i in range(len(self.newpoints)):
+            total = total + self.newpoints[i]
+        return total
+
 
     def crossover(self, p1, p2):
         child1 = []
@@ -48,11 +61,9 @@ class Combined:
 
     def mutation(self, child):
         x = random.random()
-        if x>=0.1:
-            child[random.randint(0,len(child)-1)]='s0'
+        if x >= 0.1:
+            child[random.randint(0, len(child) - 1)] = 's0'
         return child
-
-
 
 
 # addition
@@ -157,8 +168,6 @@ class Game:
         return point
 
 
-# class Selection:
-#     def __init__(self):
 print('enter your level :')
 level = input()
 
@@ -179,7 +188,8 @@ for i in range(amount):
     print(states[i])
     points.append(g.get_score(states[i]))
     # print(points[i])
-# total_points = total_points + points[i]
+    total_points = total_points + points[i]
+print(total_points)
 for j in range(len(points)):
     points2.append(abs(points[j]))
 selection = zip(points, states)
@@ -191,19 +201,29 @@ selection = sorted(selection)
 selection2 = tuple(selection2)
 selection2 = sorted(selection2)
 print(states)
-randomList = random.choices(states, weights=points2, k=math.floor(len(states) / 2))
-# print(randomList)
-# randomList = randomList[:len(randomList)-(len(randomList)//2)]
-# print(randomList)
-goodpoints = []
-for i in range((len(randomList))):
-    goodpoints.append(g.get_score(randomList[i]))
-print(goodpoints)
+#print(len(states), len(points2))
+algorythm_repeat: int = 10
+for i in range(algorythm_repeat - 1):
 
-combined = Combined(selection, randomList, goodpoints)
-combined_list = combined.combine()
-print(combined_list)
-#print(combined_list[0])
+
+    randomList = random.choices(states, weights=points2, k=math.floor(len(states) / 2))
+    # print(randomList)
+    # randomList = randomList[:len(randomList)-(len(randomList)//2)]
+    # print(randomList)
+    goodpoints = []
+    for i in range((len(randomList))):
+        goodpoints.append(g.get_score(randomList[i]))
+    print(goodpoints)
+
+    combined = Combined(selection, randomList, goodpoints, g)
+    combined_list = combined.combine()
+    print(combined_list)
+    states = combined_list
+    points2 = combined.newpoints
+    print(combined.totalnewpoints())
+    print(len(states), len(points2), 'here')
+
+# print(combined_list[0])
 
 # print(len(randomList), len(goodpoints))
 
