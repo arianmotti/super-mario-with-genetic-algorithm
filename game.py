@@ -3,6 +3,27 @@ import math
 import matplotlib.pyplot as plt
 
 
+def draw_vertical_columnbar_line_with_stem_method(array):
+    # The x-axis maximum number.
+    axis_x_max = 10
+
+    axis_y_max = 20
+
+    y_value = array
+
+    x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    plt.xlim(0, axis_x_max)
+
+    plt.ylim(-axis_y_max, axis_y_max)
+
+    plt.stem(x_value, y_value)
+
+    plt.show()
+
+
+
+
 class Combined:
     def __init__(self, allgenes, goodgenes, goodpoints, g):
         self.allgenes = allgenes
@@ -121,6 +142,7 @@ class Game:
         self.levels = levels
         self.current_level_index = -1
         self.current_level_len = 0
+        self.success = False
 
         # addition
         # self.first_pop_list = []
@@ -162,11 +184,18 @@ class Game:
             #     break
         if steps == self.current_level_len - 1:
             point = point + 10
+            self.success = True
+
+
         else:
             point = point - 5
+            self.success = False
 
         print(steps == self.current_level_len - 1, steps)
         return point
+
+    def success(self):
+        return self.success
 
 
 print('enter your level :')
@@ -187,14 +216,22 @@ max_point = 0
 min_point = 0
 all_maxpoints = []
 all_minpoints = []
+win = 0
 for i in range(amount):
     test = FirstPop(level)
     print(test.build())
     states.append(test.state_maker())
     print(states[i])
     points.append(g.get_score(states[i]))
+    if g.success:
+        win = 1
+        print('we reached goal in the first step')
+
     # print(points[i])
     total_points = total_points + points[i]
+
+success = False
+
 min_point = min(points)
 max_point = max(points)
 all_maxpoints.append(max_point)
@@ -232,6 +269,16 @@ for i in range(algo_repeat - 1):
     combined_list = combined.combine()
     print(combined_list)
     states = combined_list
+    for i in range(len(states)):
+        g.get_score(states[i])
+        if g.success:
+            win = i+1
+            print(f'we reached goal in the {i} step')
+
+
+        # print(points[i])
+        total_points = total_points + points[i]
+
     points2 = []
     all_maxpoints.append(max(combined.newpoints))
     all_minpoints.append(min(combined.newpoints))
@@ -248,30 +295,9 @@ for i in range(len(all_total_points)):
     avg_total_points.append(all_total_points[i] / amount)
 print(avg_total_points)
 
-
-def draw_vertical_columnbar_line_with_stem_method(array):
-    # The x-axis maximum number.
-    axis_x_max = 10
-
-    axis_y_max = 20
-
-    y_value = array
-
-    x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-    plt.xlim(0, axis_x_max)
-
-    plt.ylim(-axis_y_max, axis_y_max)
-
-    plt.stem(x_value, y_value)
-
-    plt.show()
-
-
 draw_vertical_columnbar_line_with_stem_method(avg_total_points)
 draw_vertical_columnbar_line_with_stem_method(all_maxpoints)
 draw_vertical_columnbar_line_with_stem_method(all_minpoints)
-
 # print(combined_list[0])
 
 # print(len(randomList), len(goodpoints))
