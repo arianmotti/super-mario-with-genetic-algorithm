@@ -195,6 +195,11 @@ for i in range(amount):
     points.append(g.get_score(states[i]))
     # print(points[i])
     total_points = total_points + points[i]
+min_point = min(points)
+max_point = max(points)
+all_maxpoints.append(max_point)
+all_minpoints.append(min_point)
+
 all_total_points.append(total_points)
 print(total_points)
 for j in range(len(points)):
@@ -228,6 +233,8 @@ for i in range(algo_repeat - 1):
     print(combined_list)
     states = combined_list
     points2 = []
+    all_maxpoints.append(max(combined.newpoints))
+    all_minpoints.append(min(combined.newpoints))
     for j in range(len(points)):
         points2.append(abs(combined.newpoints[j]))
     for j in range(len(points2)):
@@ -262,6 +269,8 @@ def draw_vertical_columnbar_line_with_stem_method(array):
 
 
 draw_vertical_columnbar_line_with_stem_method(avg_total_points)
+draw_vertical_columnbar_line_with_stem_method(all_maxpoints)
+draw_vertical_columnbar_line_with_stem_method(all_minpoints)
 
 # print(combined_list[0])
 
