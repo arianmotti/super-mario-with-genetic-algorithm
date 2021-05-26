@@ -22,10 +22,8 @@ def draw_vertical_columnbar_line_with_stem_method(array):
     plt.show()
 
 
-
-
 class Combined:
-    def __init__(self, allgenes, goodgenes, goodpoints, g):
+    def __init__(self, allgenes, goodgenes, goodpoints, g, countwinscore):
         self.allgenes = allgenes
         self.goodgenes = goodgenes
         self.combinedlist = []
@@ -33,6 +31,7 @@ class Combined:
         self.newpoints = []
         self.better = zip(self.goodgenes, self.goodpoints)
         self.game = g
+        self.countwinscore = countwinscore
 
     def combine(self):
         # print(self.goodgenes)
@@ -50,8 +49,8 @@ class Combined:
             # parent2 = self.goodgenes[random.randint(0, len(self.goodgenes) - 1)]
             # self.crossover(parent1, parent2)
             # self.combinedlist.append(self.crossover(parent1, parent2))
-            self.newpoints.append(g.get_score(child1))
-            self.newpoints.append(g.get_score(child2))
+            self.newpoints.append(g.get_score(child1, self.countwinscore))
+            self.newpoints.append(g.get_score(child2, self.countwinscore))
         return self.combinedlist
 
     def newpoints(self):
@@ -152,7 +151,7 @@ class Game:
         self.current_level_index += 1
         self.current_level_len = len(self.levels[self.current_level_index])
 
-    def get_score(self, states):
+    def get_score(self, states, countwinscore):
         # Get an action sequence and determine the steps taken/score
         # Return a tuple, the first one indicates if these actions result in victory
         # and the second one shows the steps taken
@@ -183,12 +182,14 @@ class Game:
             # else:
             #     break
         if steps == self.current_level_len - 1:
-            point = point + 10
+            if countwinscore:
+                point = point + 10
             self.success = True
 
 
         else:
-            point = point - 5
+            if countwinscore:
+                point = point - 5
             self.success = False
 
         # print(steps == self.current_level_len - 1, steps)
@@ -206,6 +207,14 @@ g.load_next_level()
 
 print('enter your first population amount :')
 amount = int(input())
+
+print('count win score?\n press y to yes and press n to no ')
+countwinscore = input()
+if countwinscore == 'y':
+    countwinscore = True
+print('choose your method for selection : \n press 1 or 2')
+method = input()
+
 # addition
 states = []
 points = []
@@ -222,7 +231,7 @@ for i in range(amount):
     print(test.build())
     states.append(test.state_maker())
     print(states[i])
-    points.append(g.get_score(states[i]))
+    points.append(g.get_score(states[i], countwinscore))
     if g.success:
         win = 1
         print('we reached goal in the first step')
@@ -238,7 +247,7 @@ all_maxpoints.append(max_point)
 all_minpoints.append(min_point)
 
 all_total_points.append(total_points)
-#print(total_points)
+# print(total_points)
 for j in range(len(points)):
     points2.append(abs(points[j]))
 selection = zip(points, states)
@@ -250,32 +259,38 @@ selection = sorted(selection)
 # print(selection)
 selection2 = tuple(selection2)
 selection2 = sorted(selection2)
-#print(states)
+# print(states)
 # print(len(states), len(points2))
 algo_repeat: int = 10
 for algo in range(algo_repeat - 1):
 
-    randomList = random.choices(states, weights=points2, k=math.floor(len(states) / 2))
+    if method == '1':
+        randomList = random.choices(states, weights=points2, k=math.floor(len(states) / 2))
+    else:
+        randomList = []
+
+        for i in range(math.floor(len(states))):
+            randomList.append(states[i])
+
     # print(randomList)
     # randomList = randomList[:len(randomList)-(len(randomList)//2)]
     # print(randomList)
     goodpoints = []
     tmp_points = 0
     for i in range((len(randomList))):
-        goodpoints.append(g.get_score(randomList[i]))
-    #print(goodpoints)
+        goodpoints.append(g.get_score(randomList[i], countwinscore))
+    # print(goodpoints)
 
-    combined = Combined(selection, randomList, goodpoints, g)
+    combined = Combined(selection, randomList, goodpoints, g, countwinscore)
     combined_list = combined.combine()
-    #print(combined_list)
+    # print(combined_list)
     states = combined_list
     for i in range(len(states)):
-        g.get_score(states[i])
+        g.get_score(states[i], countwinscore)
         if g.success:
-            win = algo+2
+            win = algo + 2
             print(f'we reached goal in the {algo} step')
             break
-
 
         # print(points[i])
         total_points = total_points + points[i]
@@ -290,11 +305,11 @@ for algo in range(algo_repeat - 1):
     all_total_points.append(tmp_points)
     # print(combined.totalnewpoints())
     # print(len(states), len(points2), 'here')
-#print(all_total_points)
+# print(all_total_points)
 avg_total_points = []
 for i in range(len(all_total_points)):
     avg_total_points.append(all_total_points[i] / amount)
-#print(avg_total_points)
+# print(avg_total_points)
 
 draw_vertical_columnbar_line_with_stem_method(avg_total_points)
 draw_vertical_columnbar_line_with_stem_method(all_maxpoints)
