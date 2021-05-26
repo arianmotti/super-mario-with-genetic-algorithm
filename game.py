@@ -191,7 +191,7 @@ class Game:
             point = point - 5
             self.success = False
 
-        print(steps == self.current_level_len - 1, steps)
+        # print(steps == self.current_level_len - 1, steps)
         return point
 
     def success(self):
@@ -253,7 +253,7 @@ selection2 = sorted(selection2)
 print(states)
 # print(len(states), len(points2))
 algo_repeat: int = 10
-for i in range(algo_repeat - 1):
+for algo in range(algo_repeat - 1):
 
     randomList = random.choices(states, weights=points2, k=math.floor(len(states) / 2))
     # print(randomList)
@@ -272,8 +272,9 @@ for i in range(algo_repeat - 1):
     for i in range(len(states)):
         g.get_score(states[i])
         if g.success:
-            win = i+1
-            print(f'we reached goal in the {i} step')
+            win = algo+2
+            print(f'we reached goal in the {algo} step')
+            break
 
 
         # print(points[i])
