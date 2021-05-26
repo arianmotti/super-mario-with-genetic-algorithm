@@ -267,9 +267,10 @@ for algo in range(algo_repeat - 1):
     if method == '1':
         randomList = random.choices(states, weights=points2, k=math.floor(len(states) / 2))
     else:
+        states = [states for points2, x in selection2]
         randomList = []
 
-        for i in range(math.floor(len(states))):
+        for i in range(math.floor(len(states) / 2)):
             randomList.append(states[i])
 
     # print(randomList)
