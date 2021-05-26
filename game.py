@@ -23,7 +23,7 @@ def draw_vertical_columnbar_line_with_stem_method(array):
 
 
 class Combined:
-    def __init__(self, allgenes, goodgenes, goodpoints, g, countwinscore):
+    def __init__(self, allgenes, goodgenes, goodpoints, g, countwinscore, probability):
         self.allgenes = allgenes
         self.goodgenes = goodgenes
         self.combinedlist = []
@@ -32,6 +32,7 @@ class Combined:
         self.better = zip(self.goodgenes, self.goodpoints)
         self.game = g
         self.countwinscore = countwinscore
+        self.probability=probability
 
     def combine(self):
         # print(self.goodgenes)
@@ -82,7 +83,7 @@ class Combined:
 
     def mutation(self, child):
         x = random.random()
-        if x >= 0.1:
+        if x <= probability:
             child[random.randint(0, len(child) - 1)] = 's0'
         return child
 
@@ -208,12 +209,19 @@ g.load_next_level()
 print('enter your first population amount :')
 amount = int(input())
 
-print('count win score?\n press y to yes and press n to no ')
+print('count win score?\n press y  or n ')
 countwinscore = input()
 if countwinscore == 'y':
     countwinscore = True
 print('choose your method for selection : \n press 1 or 2')
 method = input()
+
+print('enter combination points : \n press 1 or 2')
+
+cobinationspoint = input()
+
+print('enter mutation probability :')
+probability = float(input())
 
 # addition
 states = []
@@ -282,7 +290,7 @@ for algo in range(algo_repeat - 1):
         goodpoints.append(g.get_score(randomList[i], countwinscore))
     # print(goodpoints)
 
-    combined = Combined(selection, randomList, goodpoints, g, countwinscore)
+    combined = Combined(selection, randomList, goodpoints, g, countwinscore , probability)
     combined_list = combined.combine()
     # print(combined_list)
     states = combined_list
