@@ -238,7 +238,7 @@ all_maxpoints.append(max_point)
 all_minpoints.append(min_point)
 
 all_total_points.append(total_points)
-print(total_points)
+#print(total_points)
 for j in range(len(points)):
     points2.append(abs(points[j]))
 selection = zip(points, states)
@@ -250,7 +250,7 @@ selection = sorted(selection)
 # print(selection)
 selection2 = tuple(selection2)
 selection2 = sorted(selection2)
-print(states)
+#print(states)
 # print(len(states), len(points2))
 algo_repeat: int = 10
 for algo in range(algo_repeat - 1):
@@ -263,11 +263,11 @@ for algo in range(algo_repeat - 1):
     tmp_points = 0
     for i in range((len(randomList))):
         goodpoints.append(g.get_score(randomList[i]))
-    print(goodpoints)
+    #print(goodpoints)
 
     combined = Combined(selection, randomList, goodpoints, g)
     combined_list = combined.combine()
-    print(combined_list)
+    #print(combined_list)
     states = combined_list
     for i in range(len(states)):
         g.get_score(states[i])
@@ -288,13 +288,13 @@ for algo in range(algo_repeat - 1):
     for j in range(len(points2)):
         tmp_points = tmp_points + points2[j]
     all_total_points.append(tmp_points)
-    print(combined.totalnewpoints())
-    print(len(states), len(points2), 'here')
-print(all_total_points)
+    # print(combined.totalnewpoints())
+    # print(len(states), len(points2), 'here')
+#print(all_total_points)
 avg_total_points = []
 for i in range(len(all_total_points)):
     avg_total_points.append(all_total_points[i] / amount)
-print(avg_total_points)
+#print(avg_total_points)
 
 draw_vertical_columnbar_line_with_stem_method(avg_total_points)
 draw_vertical_columnbar_line_with_stem_method(all_maxpoints)
