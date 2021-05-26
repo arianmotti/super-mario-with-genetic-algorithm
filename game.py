@@ -1,5 +1,6 @@
 import random
 import math
+import matplotlib.pyplot as plt
 
 
 class Combined:
@@ -34,12 +35,12 @@ class Combined:
 
     def newpoints(self):
         return self.newpoints
+
     def totalnewpoints(self):
         total = 0
         for i in range(len(self.newpoints)):
             total = total + self.newpoints[i]
         return total
-
 
     def crossover(self, p1, p2):
         child1 = []
@@ -181,6 +182,11 @@ states = []
 points = []
 points2 = []
 total_points = 0
+all_total_points = []
+max_point = 0
+min_point = 0
+all_maxpoints = []
+all_minpoints = []
 for i in range(amount):
     test = FirstPop(level)
     print(test.build())
@@ -189,6 +195,7 @@ for i in range(amount):
     points.append(g.get_score(states[i]))
     # print(points[i])
     total_points = total_points + points[i]
+all_total_points.append(total_points)
 print(total_points)
 for j in range(len(points)):
     points2.append(abs(points[j]))
@@ -197,20 +204,21 @@ selection2 = zip(points2, states)
 
 selection = tuple(selection)
 selection = sorted(selection)
+
 # print(selection)
 selection2 = tuple(selection2)
 selection2 = sorted(selection2)
 print(states)
-#print(len(states), len(points2))
-algorythm_repeat: int = 10
-for i in range(algorythm_repeat - 1):
-
+# print(len(states), len(points2))
+algo_repeat: int = 10
+for i in range(algo_repeat - 1):
 
     randomList = random.choices(states, weights=points2, k=math.floor(len(states) / 2))
     # print(randomList)
     # randomList = randomList[:len(randomList)-(len(randomList)//2)]
     # print(randomList)
     goodpoints = []
+    tmp_points = 0
     for i in range((len(randomList))):
         goodpoints.append(g.get_score(randomList[i]))
     print(goodpoints)
@@ -219,9 +227,41 @@ for i in range(algorythm_repeat - 1):
     combined_list = combined.combine()
     print(combined_list)
     states = combined_list
-    points2 = combined.newpoints
+    points2 = []
+    for j in range(len(points)):
+        points2.append(abs(combined.newpoints[j]))
+    for j in range(len(points2)):
+        tmp_points = tmp_points + points2[j]
+    all_total_points.append(tmp_points)
     print(combined.totalnewpoints())
     print(len(states), len(points2), 'here')
+print(all_total_points)
+avg_total_points = []
+for i in range(len(all_total_points)):
+    avg_total_points.append(all_total_points[i] / amount)
+print(avg_total_points)
+
+
+def draw_vertical_columnbar_line_with_stem_method(array):
+    # The x-axis maximum number.
+    axis_x_max = 10
+
+    axis_y_max = 20
+
+    y_value = array
+
+    x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    plt.xlim(0, axis_x_max)
+
+    plt.ylim(-axis_y_max, axis_y_max)
+
+    plt.stem(x_value, y_value)
+
+    plt.show()
+
+
+draw_vertical_columnbar_line_with_stem_method(avg_total_points)
 
 # print(combined_list[0])
 
