@@ -1,0 +1,9 @@
+diff --git a/fileB.txt b/fileB.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/fileC.txt b/fileC.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/tempfile b/tempfile
+new file mode 100644
+index 0000000..e69de29
